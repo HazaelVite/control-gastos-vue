@@ -10,7 +10,7 @@ import Filtro from './components/Filtro.vue';
 
 <style>
 :root {
-  --azul: #1657be;
+  --azul: #5f16be;
   --blanco: #fff;
   --gris-claro: #F5F5F5;
   --gris: #94A3B8;
@@ -65,4 +65,5 @@ header h1 {
   background-color: var(--blanco);
   border-radius: 1rem;
   padding: 5rem;
-}</style>
+}
+</style>
