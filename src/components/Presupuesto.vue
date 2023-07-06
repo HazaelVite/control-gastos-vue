@@ -3,6 +3,7 @@
  import Alerta from './Alerta.vue';
  const presupuesto = ref(0);
  const isError = ref(false);
+ const emit = defineEmits(['colocar-presupuesto'])
 
  const definirPresupuesto = () => {
     if (presupuesto.value <= 0) {
@@ -10,8 +11,12 @@
         setTimeout(() => {
             isError.value = false;
         }, 3000)
+    } else {
+        emit('colocar-presupuesto', presupuesto.value)
     }
+    
  }
+
 </script>
 
 <template>

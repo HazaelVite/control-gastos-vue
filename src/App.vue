@@ -44,7 +44,9 @@ h2 {
 }
 
 header {
-  background-color: var(--azul);
+  /* background-color: var(--azul); */
+  background-image: url('https://w.wallhaven.cc/full/ex/wallhaven-ex9gwo.png');
+  background-position: center center;
 }
 
 header h1 {
