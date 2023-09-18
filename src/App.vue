@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import Presupuesto from './components/Presupuesto.vue';
 import ControlPresupues from './components/ControlPresupues.vue';
+import Modal from './components/Modal.vue';
 import icoNuevoGasto from "./assets/img/nuevo-gasto.svg";
 
+const modal = reactive({
+  mostrar:false,
+  animar: false
+})
 const presupuesto = ref(0);
 const disponible = ref(0);
 
@@ -12,6 +17,15 @@ const colocarPresupuesto = (cantidad) => {
   disponible.value = cantidad
 }
 
+const mostrarModal = () =>{
+  modal.animar = true
+  modal.mostrar = true
+}
+
+const cerrarModal = () =>{
+  modal.animar = false
+  modal.mostrar = false
+}
 </script>
 
 <template>
@@ -24,8 +38,9 @@ const colocarPresupuesto = (cantidad) => {
   </header>
   <main v-if="presupuesto > 0">
     <div class="crear-gasto">
-      <img :src="icoNuevoGasto" alt="Nuevo Gasto" />
+      <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
     </div>
+    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" />
   </main>
 </template>
 
