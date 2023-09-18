@@ -6,11 +6,12 @@
  const emit = defineEmits(['colocar-presupuesto'])
 
  const definirPresupuesto = () => {
-    if (presupuesto.value <= 0) {
+    if (presupuesto.value <= 0 || presupuesto.value === '') {
         isError.value = true;
         setTimeout(() => {
             isError.value = false;
         }, 3000)
+        return 
     } else {
         emit('colocar-presupuesto', presupuesto.value)
     }
