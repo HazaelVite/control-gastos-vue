@@ -18,13 +18,18 @@ const colocarPresupuesto = (cantidad) => {
 }
 
 const mostrarModal = () =>{
-  modal.animar = true
-  modal.mostrar = true
+  setTimeout(() => {
+    modal.animar = true;
+  }, 300);
+  
+  modal.mostrar = true;
 }
 
 const cerrarModal = () =>{
-  modal.animar = false
-  modal.mostrar = false
+  modal.animar = false;
+  setTimeout(() => {
+    modal.mostrar = false;
+  }, 300);
 }
 </script>
 
@@ -40,7 +45,7 @@ const cerrarModal = () =>{
     <div class="crear-gasto">
       <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
     </div>
-    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" />
+    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" :modal="modal" />
   </main>
 </template>
 

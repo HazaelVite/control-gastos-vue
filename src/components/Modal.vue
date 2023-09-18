@@ -1,7 +1,13 @@
 <script setup>
 import cerrarModal from "../assets/img/cerrar.svg";
 
-const emit = defineEmits(['cerrar-modal'])
+const emit = defineEmits(['cerrar-modal']);
+const props = defineProps({
+    modal: {
+        type: Object,
+        required: true
+    }
+})
 </script>
 
 <template>
@@ -10,7 +16,7 @@ const emit = defineEmits(['cerrar-modal'])
             <img :src="cerrarModal" alt="cerrar modal" @click="$emit('cerrar-modal')" />
         </div>
 
-        <div class="contenedor">
+        <div class="contenedor contenedor-formulario" :class="[modal.animar ? 'animar' : 'cerrar']">
             <form class="nuevo-gasto">
                 <legend>Agregar Gasto</legend>
                 <div class="campo">
@@ -24,7 +30,7 @@ const emit = defineEmits(['cerrar-modal'])
                 <div class="campo">
                     <label for="categoria">Categoria:</label>
                     <select id="categoria">
-                        <option value="">-- Seleccioanr --</option>
+                        <option value="">-- Seleccionar --</option>
                         <option value="ahorro">Ahorro</option>
                         <option value="comida">Comida</option>
                         <option value="casa">Casa</option>
@@ -59,6 +65,21 @@ const emit = defineEmits(['cerrar-modal'])
 .cerrar-modal img {
     width: 3rem;
     cursor: pointer;
+}
+
+.contenedor-formulario {
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in;
+    opacity: 0;
+}
+
+.contenedor-formulario.animar {
+    opacity: 1;
+}
+
+.contenedor-formulario.cerrar {
+    opacity: 0;
 }
 
 .nuevo-gasto {
