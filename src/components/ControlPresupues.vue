@@ -12,25 +12,73 @@ import imagen from '../assets/img/grafico.jpg';
                 Reiniciar App
             </button>
             <p>
-                <span>
-                    Presupuesto:
-                </span>
+                <span>Presupuesto:</span>
                 $0
             </p>
             <p>
-                <span>
-                    Disponible:
-                </span>
+                <span>Disponible:</span>
                 $0
             </p>
             <p>
-                <span>
-                    Gastado:
-                </span>
+                <span>Gastado:</span>
                 $0
             </p>
         </div>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.dos-columnas {
+    display: flex;
+    flex-direction: column;
+}
+
+.dos-columnas> :first-child {
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .dos-columnas {
+        flex-direction: row;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .dos-columnas> :first-child {
+        margin-bottom: 0;
+    }
+}
+.contenedor-presupuesto {
+    width: 100%;
+}
+.contenedor-presupuesto p {
+    font-size: 2.4rem;
+    text-align: center;
+    color: var(--gris-oscuro);
+}
+@media (min-width: 768px) {
+    .contenedor-presupuesto p {
+    text-align: left;
+}
+}
+.contenedor-presupuesto span {
+    font-weight: 900;
+    color: var(--azul);
+}
+.reset-app {
+    background-color: rgb(138, 47, 223);
+    border: none;
+    padding: 1rem;
+    width: 100%;
+    color: var(--blanco);
+    font-weight: 900;
+    text-transform: uppercase;
+    border-radius: 1rem;
+    transition-property: backgroud-color;
+    transition-duration: 300ms;
+}
+.reset-app:hover {
+    cursor: pointer;
+    background-color: rgb(106, 34, 173);
+}
+</style>
