@@ -1,11 +1,32 @@
 <script setup>
-import Header from './components/Header.vue';
-import Filtro from './components/Filtro.vue';
+import { ref } from 'vue';
+import Presupuesto from './components/Presupuesto.vue';
+import ControlPresupues from './components/ControlPresupues.vue';
+import icoNuevoGasto from "./assets/img/nuevo-gasto.svg";
+
+const presupuesto = ref(0);
+const disponible = ref(0);
+
+const colocarPresupuesto = (cantidad) => {
+  presupuesto.value = cantidad
+  disponible.value = cantidad
+}
+
 </script>
 
 <template>
-  <Header />
-  <Filtro />
+  <header>
+    <h1>Planificador de Gastos</h1>
+    <div class="contenedor-header contenedor sombra">
+      <Presupuesto v-if="presupuesto === 0" @colocar-presupuesto="colocarPresupuesto" />
+      <ControlPresupues v-else :presupuesto="presupuesto" :disponible="disponible" />
+    </div>
+  </header>
+  <main v-if="presupuesto > 0">
+    <div class="crear-gasto">
+      <img :src="icoNuevoGasto" alt="Nuevo Gasto" />
+    </div>
+  </main>
 </template>
 
 <style>
@@ -67,5 +88,22 @@ header h1 {
   background-color: var(--blanco);
   border-radius: 1rem;
   padding: 5rem;
+}
+
+.contenedor-header {
+  margin-top: -5rem;
+  transform: translateY(5rem);
+  padding: 5rem;
+}
+
+.crear-gasto {
+    position: fixed;
+    bottom: 5rem;
+    right: 5rem;
+}
+
+.crear-gasto img {
+    width: 5rem;
+    cursor: pointer;
 }
 </style>
