@@ -12,7 +12,7 @@ export const generarId = () => {
 }
 
 export const formateraFecha = fecha => {
-    fechaNueva = new Date(fecha);
+    const fechaNueva = new Date(fecha);
     const opciones = {
         year: "numeric",
         month: 'long',

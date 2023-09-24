@@ -4,7 +4,7 @@ import Alerta from "./Alerta.vue";
 import cerrarModal from "../assets/img/cerrar.svg";
 
 const error = ref('');
-const emit = defineEmits(['cerrar-modal', 'guardar-gasto', 'uodate:nombre', 'update:cantidad', 'update:categoria']);
+const emit = defineEmits(['cerrar-modal', 'guardar-gasto', 'update:nombre', 'update:cantidad', 'update:categoria']);
 const props = defineProps({
     modal: {
         type: Object,
