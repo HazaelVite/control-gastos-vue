@@ -6,26 +6,33 @@ import Modal from './components/Modal.vue';
 import icoNuevoGasto from "./assets/img/nuevo-gasto.svg";
 
 const modal = reactive({
-  mostrar:false,
+  mostrar: false,
   animar: false
 })
 const presupuesto = ref(0);
 const disponible = ref(0);
+const gasto = reactive({
+  nombre: '',
+  cantidad: '',
+  categoria: '',
+  id: null,
+  fecha: Date.now()
+})
 
 const colocarPresupuesto = (cantidad) => {
   presupuesto.value = cantidad
   disponible.value = cantidad
 }
 
-const mostrarModal = () =>{
+const mostrarModal = () => {
   setTimeout(() => {
     modal.animar = true;
   }, 300);
-  
+
   modal.mostrar = true;
 }
 
-const cerrarModal = () =>{
+const cerrarModal = () => {
   modal.animar = false;
   setTimeout(() => {
     modal.mostrar = false;
@@ -45,7 +52,8 @@ const cerrarModal = () =>{
     <div class="crear-gasto">
       <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
     </div>
-    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" :modal="modal" />
+    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" :modal="modal" v-model:nombre="gasto.nombre"
+      v-model:cantidad="gasto.cantidad" v-model:categoria="gasto.categoria" />
   </main>
 </template>
 
@@ -117,13 +125,13 @@ header h1 {
 }
 
 .crear-gasto {
-    position: fixed;
-    bottom: 5rem;
-    right: 5rem;
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
 }
 
 .crear-gasto img {
-    width: 5rem;
-    cursor: pointer;
+  width: 5rem;
+  cursor: pointer;
 }
 </style>

@@ -1,10 +1,22 @@
 <script setup>
 import cerrarModal from "../assets/img/cerrar.svg";
 
-const emit = defineEmits(['cerrar-modal']);
+const emit = defineEmits(['cerrar-modal', 'uodate:nombre', 'update:cantidad', 'update:categoria']);
 const props = defineProps({
     modal: {
         type: Object,
+        required: true
+    },
+    nombre: {
+        type: String,
+        required: true
+    },
+    cantidad: {
+        type: [String, Number],
+        required: true
+    },
+    categoria: {
+        type: String,
         required: true
     }
 })
@@ -21,15 +33,17 @@ const props = defineProps({
                 <legend>Agregar Gasto</legend>
                 <div class="campo">
                     <label for="nombre">Nombre del gasto:</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Agrega el nombre del gasto">
+                    <input type="text" name="nombre" id="nombre" placeholder="Agrega el nombre del gasto" :value="nombre"
+                        @input="$emit('update:nombre', $event.target.value)">
                 </div>
                 <div class="campo">
                     <label for="cantidad">Cantidad:</label>
-                    <input type="text" name="cantidad" id="cantidad" placeholder="Agrega la cantidad del gasto, ejemplo 300">
+                    <input type="text" name="cantidad" id="cantidad" placeholder="Agrega la cantidad del gasto, ejemplo 300"
+                        :value="cantidad" @input="$emit('update:cantidad', +$event.target.value)">
                 </div>
                 <div class="campo">
                     <label for="categoria">Categoria:</label>
-                    <select id="categoria">
+                    <select id="categoria" :value="categoria" @input="$emit('update:categoria', $event.target.value)">
                         <option value="">-- Seleccionar --</option>
                         <option value="ahorro">Ahorro</option>
                         <option value="comida">Comida</option>
@@ -87,16 +101,19 @@ const props = defineProps({
     display: grid;
     gap: 2rem;
 }
+
 .campo {
     display: grid;
     gap: 2rem;
 }
+
 .nuevo-gasto legend {
     text-align: center;
     color: var(--blanco);
     font-size: 3rem;
     font-weight: 700;
 }
+
 .nuevo-gasto input,
 .nuevo-gasto select {
     background-color: var(--gris-claro);
@@ -105,10 +122,12 @@ const props = defineProps({
     border: none;
     font-size: 2.2rem;
 }
+
 .nuevo-gasto label {
     color: var(--blanco);
     font-size: 3rem;
 }
+
 .nuevo-gasto input[type="submit"] {
     background-color: var(--azul);
     color: var(--blanco);
