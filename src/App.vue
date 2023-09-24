@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import Presupuesto from './components/Presupuesto.vue';
 import ControlPresupues from './components/ControlPresupues.vue';
 import Gasto from './components/Gasto.vue';
@@ -13,6 +13,7 @@ const modal = reactive({
 })
 const presupuesto = ref(0);
 const disponible = ref(0);
+const gastado = ref(0);
 const gasto = reactive({
   nombre: '',
   cantidad: '',
@@ -21,6 +22,13 @@ const gasto = reactive({
   fecha: Date.now()
 })
 const gastos = ref([]);
+
+// Watch
+watch(gastos, () => {
+  const totalGastado = gastos.value.reduce((total, gasto) => gasto.cantidad + total, 0);
+  gastado.value = totalGastado;
+  disponible.value = presupuesto.value - totalGastado;
+}, { deep: true })
 
 const colocarPresupuesto = (cantidad) => {
   presupuesto.value = cantidad
@@ -60,26 +68,26 @@ const guardarGasto = () => {
 </script>
 
 <template>
-  <div :class="{fijar: modal.mostrar}">
-  <header>
-    <h1>Planificador de Gastos</h1>
-    <div class="contenedor-header contenedor sombra">
-      <Presupuesto v-if="presupuesto === 0" @colocar-presupuesto="colocarPresupuesto" />
-      <ControlPresupues v-else :presupuesto="presupuesto" :disponible="disponible" />
-    </div>
-  </header>
-  <main v-if="presupuesto > 0">
-    <div class="listado-gastos contenedor">
-      <h2>{{ gastos.length > 0 ? 'Gastos' : 'No hay gastos' }}</h2>
-      <Gasto v-for="gasto in gastos" :key="gasto.id" :gasto="gasto" />
-    </div>
-    <div class="crear-gasto">
-      <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
-    </div>
-    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" @guardar-gasto="guardarGasto" :modal="modal"
-      v-model:nombre="gasto.nombre" v-model:cantidad="gasto.cantidad" v-model:categoria="gasto.categoria" />
-  </main>
-</div>
+  <div :class="{ fijar: modal.mostrar }">
+    <header>
+      <h1>Planificador de Gastos</h1>
+      <div class="contenedor-header contenedor sombra">
+        <Presupuesto v-if="presupuesto === 0" @colocar-presupuesto="colocarPresupuesto" />
+        <ControlPresupues v-else :presupuesto="presupuesto" :disponible="disponible" :gastado="gastado" />
+      </div>
+    </header>
+    <main v-if="presupuesto > 0">
+      <div class="listado-gastos contenedor">
+        <h2>{{ gastos.length > 0 ? 'Gastos' : 'No hay gastos' }}</h2>
+        <Gasto v-for="gasto in gastos" :key="gasto.id" :gasto="gasto" />
+      </div>
+      <div class="crear-gasto">
+        <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
+      </div>
+      <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" @guardar-gasto="guardarGasto" :modal="modal"
+        v-model:nombre="gasto.nombre" v-model:cantidad="gasto.cantidad" v-model:categoria="gasto.categoria" />
+    </main>
+  </div>
 </template>
 
 <style>
