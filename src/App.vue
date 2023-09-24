@@ -2,8 +2,10 @@
 import { ref, reactive } from 'vue';
 import Presupuesto from './components/Presupuesto.vue';
 import ControlPresupues from './components/ControlPresupues.vue';
+import Gasto from './components/Gasto.vue';
 import Modal from './components/Modal.vue';
 import icoNuevoGasto from "./assets/img/nuevo-gasto.svg";
+import { generarId } from "./helpers"
 
 const modal = reactive({
   mostrar: false,
@@ -18,6 +20,7 @@ const gasto = reactive({
   id: null,
   fecha: Date.now()
 })
+const gastos = ref([]);
 
 const colocarPresupuesto = (cantidad) => {
   presupuesto.value = cantidad
@@ -38,6 +41,22 @@ const cerrarModal = () => {
     modal.mostrar = false;
   }, 300);
 }
+
+const guardarGasto = () => {
+  gastos.value.push({
+    ...gasto,
+    id: generarId(),
+  })
+  // Ocultar el modal
+  cerrarModal();
+  Object.assign(gasto, {
+    nombre: '',
+    cantidad: '',
+    categoria: '',
+    id: null,
+    fecha: Date.now()
+  })
+}
 </script>
 
 <template>
@@ -49,11 +68,15 @@ const cerrarModal = () => {
     </div>
   </header>
   <main v-if="presupuesto > 0">
+    <div class="listado-gastos contenedor">
+      <h2>{{ gastos.length > 0 ? 'Gastos' : 'No hay gastos' }}</h2>
+      <Gasto v-for="gasto in gastos" :key="gasto.id" :gasto="gasto" />
+    </div>
     <div class="crear-gasto">
       <img :src="icoNuevoGasto" alt="Nuevo Gasto" @click="mostrarModal" />
     </div>
-    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" :modal="modal" v-model:nombre="gasto.nombre"
-      v-model:cantidad="gasto.cantidad" v-model:categoria="gasto.categoria" />
+    <Modal v-if="modal.mostrar" @cerrar-modal="cerrarModal" @guardar-gasto="guardarGasto" :modal="modal"
+      v-model:nombre="gasto.nombre" v-model:cantidad="gasto.cantidad" v-model:categoria="gasto.categoria" />
   </main>
 </template>
 
@@ -133,5 +156,14 @@ header h1 {
 .crear-gasto img {
   width: 5rem;
   cursor: pointer;
+}
+
+.listado-gastos {
+  margin-top: 10rem;
+}
+
+.listado-gastos h2 {
+  color: var(--gris-oscuro);
+  font-weight: 900;
 }
 </style>
