@@ -72,7 +72,7 @@ const guardarGasto = () => {
     // Editando...
     const { id } = gasto;
     const idx = gastos.value.findIndex((gasto => gasto.id === id));
-    gastos.value[idx] = {...gastos};
+    gastos.value[idx] = {...gasto};
   } else {
     gastos.value.push({
       ...gasto,
@@ -136,6 +136,7 @@ const seleccionarGasto = (id) => {
         @cerrar-modal="cerrarModal"
         @guardar-gasto="guardarGasto"
         :modal="modal"
+        :id="gasto.id"
         :disponible="disponible"
         v-model:nombre="gasto.nombre"
         v-model:cantidad="gasto.cantidad"
