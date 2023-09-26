@@ -68,10 +68,17 @@ const cerrarModal = () => {
 };
 
 const guardarGasto = () => {
-  gastos.value.push({
-    ...gasto,
-    id: generarId(),
-  });
+  if (gasto.id) {
+    // Editando...
+    const { id } = gasto;
+    const idx = gastos.value.findIndex((gasto => gasto.id === id));
+    gastos.value[idx] = {...gastos};
+  } else {
+    gastos.value.push({
+      ...gasto,
+      id: generarId(),
+    });
+  }
   // Ocultar el modal
   cerrarModal();
   reiniciarFormulario();
