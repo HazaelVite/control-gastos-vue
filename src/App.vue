@@ -37,6 +37,16 @@ watch(
   { deep: true }
 );
 
+watch(
+  modal,
+  () => {
+    if (!modal.mostrar) {
+      reiniciarFormulario();
+    }
+  },
+  { deep: true }
+);
+
 const colocarPresupuesto = (cantidad) => {
   presupuesto.value = cantidad;
   disponible.value = cantidad;
@@ -64,6 +74,10 @@ const guardarGasto = () => {
   });
   // Ocultar el modal
   cerrarModal();
+  reiniciarFormulario();
+};
+
+const reiniciarFormulario = () => {
   Object.assign(gasto, {
     nombre: "",
     cantidad: "",
@@ -74,10 +88,9 @@ const guardarGasto = () => {
 };
 
 const seleccionarGasto = (id) => {
-  const gastoEditar = gastos.value.filter(gasto => gasto.id === id)[0];
+  const gastoEditar = gastos.value.filter((gasto) => gasto.id === id)[0];
   Object.assign(gasto, gastoEditar);
   mostrarModal();
-  
 };
 </script>
 
