@@ -136,7 +136,7 @@ const agregarGasto = () => {
             <option value="suscripciones">Suscripciones</option>
           </select>
         </div>
-        <input type="submit" :value="id ? 'Editar Gasto' : 'Agregar Gasto'" class="" />
+        <input type="submit" :value="[id ? 'Editar Gasto' : 'Agregar Gasto']" class="" />
       </form>
     </div>
   </div>
