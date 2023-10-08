@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, onMounted } from "vue";
 import Presupuesto from "./components/Presupuesto.vue";
 import ControlPresupues from "./components/ControlPresupues.vue";
 import Gasto from "./components/Gasto.vue";
@@ -15,7 +15,7 @@ const modal = reactive({
 const presupuesto = ref(0);
 const disponible = ref(0);
 const gastado = ref(0);
-const filtro = ref('');
+const filtro = ref("");
 
 const gasto = reactive({
   nombre: "",
@@ -36,6 +36,8 @@ watch(
     );
     gastado.value = totalGastado;
     disponible.value = presupuesto.value - totalGastado;
+
+    localStorage.setItem('gastos', JSON.stringify(gastos.value));
   },
   { deep: true }
 );
@@ -49,6 +51,26 @@ watch(
   },
   { deep: true }
 );
+
+watch(
+  presupuesto,
+  () => {
+    localStorage.setItem('presupuesto', presupuesto.value);
+  }
+);
+
+onMounted( () => {
+  const prespuestoStorage = localStorage.getItem('presupuesto');
+  if (prespuestoStorage) {
+    presupuesto.value = Number(prespuestoStorage);
+    disponible.value = Number(presupuesto.value);
+  }
+  const gastoStorage = localStorage.getItem('gastos');
+  if(gastoStorage) {
+    gastos.value = JSON.parse(gastoStorage);
+  }
+
+})
 
 const colocarPresupuesto = (cantidad) => {
   presupuesto.value = cantidad;
@@ -74,8 +96,8 @@ const guardarGasto = () => {
   if (gasto.id) {
     // Editando...
     const { id } = gasto;
-    const idx = gastos.value.findIndex((gasto => gasto.id === id));
-    gastos.value[idx] = {...gasto};
+    const idx = gastos.value.findIndex((gasto) => gasto.id === id);
+    gastos.value[idx] = { ...gasto };
   } else {
     gastos.value.push({
       ...gasto,
@@ -104,18 +126,20 @@ const seleccionarGasto = (id) => {
 };
 
 const eliminarGasto = (id) => {
-  if(confirm('Seguro que deseas eliminar este gasto?')) {
-    gastos.value = gastos.value.filter(gastoState => gastoState.id !== gasto.id);
+  if (confirm("Seguro que deseas eliminar este gasto?")) {
+    gastos.value = gastos.value.filter(
+      (gastoState) => gastoState.id !== gasto.id
+    );
     cerrarModal();
   }
-}
+};
 
 const gastosFiltrados = computed(() => {
-  if(filtro.value) {
-    return gastos.value.filter(gasto => gasto.categoria === filtro.value)
+  if (filtro.value) {
+    return gastos.value.filter((gasto) => gasto.categoria === filtro.value);
   }
   return gastos.value;
-})
+});
 </script>
 
 <template>
@@ -136,9 +160,7 @@ const gastosFiltrados = computed(() => {
       </div>
     </header>
     <main v-if="presupuesto > 0">
-      <Filtros
-        v-model:filtro="filtro"
-      />
+      <Filtros v-model:filtro="filtro" />
       <div class="listado-gastos contenedor">
         <h2>{{ gastosFiltrados.length > 0 ? "Gastos" : "No hay gastos" }}</h2>
         <Gasto
