@@ -7,6 +7,7 @@ const error = ref("");
 const emit = defineEmits([
   "cerrar-modal",
   "guardar-gasto",
+  "eliminar-gasto",
   "update:nombre",
   "update:cantidad",
   "update:categoria",
@@ -91,7 +92,7 @@ const agregarGasto = () => {
       :class="[modal.animar ? 'animar' : 'cerrar']"
     >
       <form class="nuevo-gasto" @submit.prevent="agregarGasto">
-        <legend>{{ id ? 'Editar Gasto' : 'Agregar Gasto'}}</legend>
+        <legend>{{ id ? "Editar Gasto" : "Agregar Gasto" }}</legend>
 
         <Alerta v-if="error">
           <template v-slot:header>Atención</template>
@@ -136,8 +137,21 @@ const agregarGasto = () => {
             <option value="suscripciones">Suscripciones</option>
           </select>
         </div>
-        <input type="submit" :value="[id ? 'Editar Gasto' : 'Agregar Gasto']" class="" />
+        <input
+          type="submit"
+          :value="[id ? 'Editar Gasto' : 'Agregar Gasto']"
+          class=""
+        />
       </form>
+
+      <button
+       type="button"
+       class="btn-eliminar"
+       v-if="id"
+       @click="$emit('eliminar-gasto')"  
+      >
+      Eliminar gasto
+    </button>
     </div>
   </div>
 </template>
@@ -215,5 +229,18 @@ const agregarGasto = () => {
   color: var(--blanco);
   font-weight: 700;
   cursor: pointer;
+}
+
+.btn-eliminar {
+  background-color: crimson;
+  color: var(--blanco);
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  border: none;
+  font-size: 2.2rem;
+  margin-top: 2rem;
 }
 </style>
