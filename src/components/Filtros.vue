@@ -1,7 +1,6 @@
 <script setup>
-    defineProps(['filtro']);
-    defineEmits(['update:filtro']);
-
+defineProps(["filtro"]);
+defineEmits(["update:filtro"]);
 </script>
 
 <template>
@@ -28,27 +27,35 @@
   </div>
 </template>
 
-
 <style scoped>
-    .filtros {
-        margin-top: 10rem;
-    }
-    .filtros .campo {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-    }
-    .filtros label {
-        font-size: 3rem;
-        font-weight: 900;
-        color: var(--gris-oscuro);
-    }
-    .filtros select {
-        flex: 1;
-        padding: 1rem;
-        border: none;
-        border-radius: 1rem;
-        background-color: var(--gris-claro);
-        text-align: center;
-    }
+.filtros {
+  margin-top: 10rem;
+}
+.filtros .campo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .filtros .campo {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+  }
+}
+.filtros label {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--gris-oscuro);
+}
+.filtros select {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: var(--gris-claro);
+  text-align: center;
+  width: 100%;
+}
 </style>

@@ -52,9 +52,15 @@ const diccionarioIconos = {
 <style scoped>
 .gasto {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .gasto {
+    flex-direction: row;
+  }
 }
 .contenido {
   display: flex;

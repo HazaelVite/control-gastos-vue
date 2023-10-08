@@ -268,7 +268,7 @@ header h1 {
 }
 
 .listado-gastos {
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
 
 .listado-gastos h2 {
